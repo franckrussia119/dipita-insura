@@ -1,20 +1,48 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# Dipita-Insura
 
-# Run and deploy your AI Studio app
+Next.js 16 marketing site for Dipita-Insura, an insurance company serving Africa's
+middle class and diaspora communities.
 
-This contains everything you need to run your app locally.
+## Local development
 
-View your app in AI Studio: https://ai.studio/apps/84bdc424-95d3-44cf-b122-66d138b37ca6
+```bash
+npm install --legacy-peer-deps
+cp .env.example .env   # then fill in DATABASE_URL
+npx prisma generate
+npx prisma db push     # creates the ContactSubmission / QuoteRequest tables
+npm run dev
+```
 
-## Run Locally
+The `--legacy-peer-deps` flag is only needed because a couple of packages
+haven't published fully-aligned React 19 peer ranges yet; it's safe here.
 
-**Prerequisites:**  Node.js
+## Deploying on Coolify
 
+1. Push this repo to GitHub.
+2. In Coolify, create a new **Application** → source it from this GitHub repo.
+3. Coolify will detect the `Dockerfile` at the project root and build with it
+   automatically (build pack: **Dockerfile**).
+4. Set the following environment variable in Coolify's app settings:
+   - `DATABASE_URL` — your Postgres connection string (Coolify can also
+     provision a managed Postgres instance for you and inject this).
+5. After the first deploy, run the Prisma migration against the database once
+   (from Coolify's terminal for the app, or locally with the same
+   `DATABASE_URL`):
+   ```bash
+   npx prisma db push
+   ```
+6. Set the app's exposed port to `3000` (already set via `EXPOSE 3000` in the
+   Dockerfile) and attach your domain.
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+The Dockerfile builds a `next build` **standalone** output, so the final
+runtime image only contains what's needed to run `node server.js` — no
+dev dependencies or source maps ship to production.
+
+## Notes
+
+- Contact form submissions (`/api/contact`) and quote requests (`/api/quote`)
+  are written to Postgres via Prisma — both need `DATABASE_URL` set to a real,
+  reachable database at build time (for `prisma generate`) and at runtime.
+- Google Fonts (DM Sans, Playfair Display, JetBrains Mono) are fetched at
+  build time via `next/font/google`, so the build environment needs normal
+  outbound internet access to `fonts.googleapis.com`.

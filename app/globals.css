@@ -1,0 +1,234 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Dipita-Insura Dark Luxury Theme */
+    --background: 216 60% 10%;
+    --foreground: 210 25% 96%;
+
+    --card: 216 55% 13%;
+    --card-foreground: 210 25% 96%;
+
+    --popover: 216 55% 13%;
+    --popover-foreground: 210 25% 96%;
+
+    --primary: 42 52% 54%;
+    --primary-foreground: 216 60% 10%;
+
+    --secondary: 216 40% 18%;
+    --secondary-foreground: 210 25% 90%;
+
+    --muted: 216 30% 16%;
+    --muted-foreground: 215 16% 62%;
+
+    --accent: 42 52% 54%;
+    --accent-foreground: 216 60% 10%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 10%;
+
+    --border: 216 30% 20%;
+    --input: 216 30% 22%;
+    --ring: 42 52% 54%;
+
+    --radius: 0.625rem;
+    --radius-sm: calc(0.625rem - 4px);
+    --radius-lg: calc(0.625rem + 4px);
+    --radius-full: 9999px;
+
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+    --spacing-2xl: 48px;
+    --spacing-3xl: 64px;
+
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.15), 0 1px 3px 0 rgb(0 0 0 / 0.2);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.2), 0 2px 4px -2px rgb(0 0 0 / 0.15);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.25), 0 4px 6px -4px rgb(0 0 0 / 0.15);
+
+    --duration-fast: 150ms;
+    --duration-normal: 250ms;
+    --duration-slow: 350ms;
+
+    --chart-1: 42 52% 54%;
+    --chart-2: 160 60% 35%;
+    --chart-3: 210 70% 45%;
+    --chart-4: 280 60% 50%;
+    --chart-5: 20 80% 55%;
+
+    /* Page accent — overridden by AccentProvider per route */
+    --page-accent: #C9A84C;
+  }
+
+  .dark {
+    --background: 216 60% 10%;
+    --foreground: 210 25% 96%;
+    --card: 216 55% 13%;
+    --card-foreground: 210 25% 96%;
+    --popover: 216 55% 13%;
+    --popover-foreground: 210 25% 96%;
+    --primary: 42 52% 54%;
+    --primary-foreground: 216 60% 10%;
+    --secondary: 216 40% 18%;
+    --secondary-foreground: 210 25% 90%;
+    --muted: 216 30% 16%;
+    --muted-foreground: 215 16% 62%;
+    --accent: 42 52% 54%;
+    --accent-foreground: 216 60% 10%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 10%;
+    --border: 216 30% 20%;
+    --input: 216 30% 22%;
+    --ring: 42 52% 54%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Gold shimmer animation for buttons */
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.btn-gold-shimmer {
+  background: linear-gradient(110deg, #C9A84C 0%, #E8D48B 25%, #C9A84C 50%, #E8D48B 75%, #C9A84C 100%);
+  background-size: 200% 100%;
+  transition: all 0.3s ease;
+}
+
+.btn-gold-shimmer:hover {
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+/* Glass card style */
+.glass-card {
+  background: rgba(15, 32, 64, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-card:hover {
+  border-color: var(--page-accent);
+  box-shadow: 0 0 20px rgba(201, 168, 76, 0.15);
+}
+
+/* Gold gradient text */
+.text-gold-gradient {
+  background: linear-gradient(135deg, #C9A84C, #E8D48B, #C9A84C);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Section divider */
+.gold-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #C9A84C, transparent);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: hsl(216 60% 10%);
+}
+::-webkit-scrollbar-thumb {
+  background: #C9A84C;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #E8D48B;
+}
+/* ============================================================
+   LIGHT SECTIONS — mix of dark navy + light for section rhythm
+   ============================================================ */
+
+/* A light section flips the theme tokens locally so any descendant
+   using text-foreground / text-muted-foreground / bg-card / border
+   automatically becomes dark-on-light. */
+.section-light {
+  --foreground: 216 45% 14%;
+  --muted-foreground: 215 20% 40%;
+  --card: 0 0% 100%;
+  --card-foreground: 216 45% 14%;
+  --secondary: 216 30% 94%;
+  --secondary-foreground: 216 45% 16%;
+  --border: 214 25% 88%;
+  --input: 214 25% 90%;
+  background: #F4F7FB;
+  color: hsl(var(--foreground));
+}
+
+/* Glass cards inside a light section become clean white cards. */
+.section-light .glass-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(15, 32, 64, 0.08);
+  box-shadow: 0 10px 30px rgba(10, 22, 40, 0.07);
+}
+.section-light .glass-card:hover {
+  border-color: var(--page-accent);
+  box-shadow: 0 16px 44px rgba(10, 22, 40, 0.12);
+}
+
+/* Deeper gold gradient for headings on light backgrounds (better contrast). */
+.section-light .text-gold-gradient {
+  background: linear-gradient(135deg, #9A7B2A, #C9A84C, #9A7B2A);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Adaptive outline button — border & text follow the current foreground,
+   so it stays visible on both dark and light sections. */
+.btn-outline {
+  border: 1px solid hsl(var(--foreground) / 0.25);
+  color: hsl(var(--foreground));
+  transition: all 0.3s ease;
+}
+.btn-outline:hover {
+  background: hsl(var(--foreground) / 0.06);
+  border-color: hsl(var(--foreground) / 0.4);
+}
+
+/* Adaptive soft chip (partners, tags) */
+.chip-adaptive {
+  background: hsl(var(--foreground) / 0.05);
+  color: hsl(var(--muted-foreground));
+  transition: all 0.3s ease;
+}
+.chip-adaptive:hover {
+  background: hsl(var(--foreground) / 0.1);
+  color: hsl(var(--foreground));
+}
+
+/* Adaptive form inputs — readable on light form sections */
+.section-light input,
+.section-light textarea,
+.section-light select {
+  background: #FFFFFF;
+  color: hsl(216 45% 14%);
+  border-color: hsl(214 25% 82%);
+}
+.section-light input::placeholder,
+.section-light textarea::placeholder {
+  color: hsl(215 16% 55%);
+}
+
+/* Adaptive inactive carousel dot */
+.dot-adaptive {
+  background: hsl(var(--foreground) / 0.22);
+}
