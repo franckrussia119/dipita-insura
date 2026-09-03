@@ -6,15 +6,26 @@ middle class and diaspora communities.
 ## Local development
 
 ```bash
-npm install --legacy-peer-deps
+npm ci   # uses the committed package-lock.json for a fast, deterministic install
 cp .env.example .env   # then fill in DATABASE_URL
 npx prisma generate
 npx prisma db push     # creates the ContactSubmission / QuoteRequest tables
 npm run dev
 ```
 
-The `--legacy-peer-deps` flag is only needed because a couple of packages
-haven't published fully-aligned React 19 peer ranges yet; it's safe here.
+`.npmrc` in this repo sets `legacy-peer-deps=true`, so you don't need to pass
+that flag manually — it applies automatically to `npm ci` / `npm install`.
+The peer conflict itself is minor (one or two packages haven't published
+fully-aligned React 19 peer ranges yet) and is safe to ignore.
+
+**Important:** `package-lock.json` is committed on purpose — do not delete or
+`.gitignore` it. The Dockerfile uses `npm ci`, which requires the lockfile to
+be present and in sync with `package.json`; without it, npm falls back to a
+full, unbounded dependency resolution that is far slower and can silently
+fail (e.g. get killed) inside a resource-constrained Docker build step. If
+you ever change dependencies, run `npm install` locally to regenerate the
+lockfile, then commit the updated `package-lock.json` alongside your
+`package.json` change.
 
 ## Deploying on Coolify
 
