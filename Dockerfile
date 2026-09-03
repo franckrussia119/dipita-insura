@@ -2,7 +2,12 @@
 FROM node:20-alpine AS deps
 WORKDIR /app
 RUN apk add --no-cache libc6-compat openssl
-COPY package.json package-lock.json .npmrc ./
+# Set directly via env var instead of relying on a committed .npmrc file,
+# since dotfiles are easy to accidentally omit when uploading manually.
+ENV npm_config_legacy_peer_deps=true
+ENV npm_config_audit=false
+ENV npm_config_fund=false
+COPY package.json package-lock.json ./
 RUN npm ci
 
 # ---- Build ----
